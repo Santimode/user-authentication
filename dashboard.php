@@ -83,10 +83,17 @@ $username = $_SESSION['username'];
                                 <div class="card-body">
                                     <h5 class="card-title">Welcome to Your Dashboard</h5>
                                     <p class="card-text">You have successfully logged into the system.</p>
-                                    <div class="alert alert-success">
-                                        <i class="bi bi-check-circle-fill me-2"></i>
-                                        Login successful! Your session is active.
-                                    </div>
+<div class="alert alert-success">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    Login successful! Welcome back, 
+    <?php 
+    if (isset($_SESSION['full_name'])) {
+        echo htmlspecialchars($_SESSION['full_name']);
+    } else {
+        echo htmlspecialchars($_SESSION['username']);
+    }
+    ?>!
+</div>
                                 </div>
                             </div>
                         </div>

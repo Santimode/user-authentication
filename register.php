@@ -13,6 +13,8 @@ if ($_POST) {
     $user->username = trim($_POST['username']);
     $user->email = trim($_POST['email']);
     $user->password = trim($_POST['password']);
+    $user->first_name = trim($_POST['first_name']);
+    $user->last_name = trim($_POST['last_name']);
     $confirm_password = trim($_POST['confirm_password']);
 
     // Validate passwords match
@@ -20,6 +22,8 @@ if ($_POST) {
         $message = '<div class="alert alert-danger">Passwords do not match.</div>';
     } elseif (strlen($user->password) < 6) {
         $message = '<div class="alert alert-danger">Password must be at least 6 characters long.</div>';
+    } elseif (empty($user->first_name) || empty($user->last_name)) {
+        $message = '<div class="alert alert-danger">First name and last name are required.</div>';
     } else {
         $result = $user->register();
         
@@ -84,7 +88,7 @@ if ($_POST) {
 <body>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-5">
+            <div class="col-md-8 col-lg-6">
                 <div class="register-card">
                     <div class="register-header">
                         <h2><i class="bi bi-person-plus"></i> Create Account</h2>
@@ -93,17 +97,43 @@ if ($_POST) {
                     <div class="card-body p-4">
                         <?php echo $message; ?>
                         <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="first_name" class="form-label">First Name *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                            <input type="text" class="form-control" id="first_name" name="first_name" 
+                                                   value="<?php echo isset($_POST['first_name']) ? htmlspecialchars($_POST['first_name']) : ''; ?>" 
+                                                   required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="last_name" class="form-label">Last Name *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                            <input type="text" class="form-control" id="last_name" name="last_name" 
+                                                   value="<?php echo isset($_POST['last_name']) ? htmlspecialchars($_POST['last_name']) : ''; ?>" 
+                                                   required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="mb-3">
-                                <label for="username" class="form-label">Username</label>
+                                <label for="username" class="form-label">Username *</label>
                                 <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                    <span class="input-group-text"><i class="bi bi-at"></i></span>
                                     <input type="text" class="form-control" id="username" name="username" 
                                            value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>" 
                                            required>
                                 </div>
                             </div>
+                            
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
+                                <label for="email" class="form-label">Email *</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                                     <input type="email" class="form-control" id="email" name="email" 
@@ -111,21 +141,24 @@ if ($_POST) {
                                            required>
                                 </div>
                             </div>
+                            
                             <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
+                                <label for="password" class="form-label">Password *</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-lock"></i></span>
                                     <input type="password" class="form-control" id="password" name="password" required>
                                 </div>
                                 <div class="form-text">Password must be at least 6 characters long.</div>
                             </div>
+                            
                             <div class="mb-3">
-                                <label for="confirm_password" class="form-label">Confirm Password</label>
+                                <label for="confirm_password" class="form-label">Confirm Password *</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
                                     <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
                                 </div>
                             </div>
+                            
                             <button type="submit" class="btn btn-register w-100 mb-3">Create Account</button>
                         </form>
                     </div>
